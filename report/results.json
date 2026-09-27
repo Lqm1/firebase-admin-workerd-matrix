@@ -1,0 +1,218 @@
+{
+  "schemaVersion": 1,
+  "versions": {
+    "firebaseAdmin": "14.5.0",
+    "workerd": "1.20260927.1",
+    "node": "v24.21.0",
+    "compatibilityDate": "2026-09-27"
+  },
+  "projectId": "demo-workerd-matrix",
+  "cases": [
+    {
+      "id": "app.import",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.import",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.create",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.get",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.delete",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "firestore.import",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "firestore.write",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "failed",
+        "stage": "operation",
+        "error": "Code generation from strings disallowed for this context"
+      },
+      "comparison": "incompatible"
+    },
+    {
+      "id": "firestore.read",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "failed",
+        "stage": "operation",
+        "error": "Code generation from strings disallowed for this context"
+      },
+      "comparison": "incompatible"
+    },
+    {
+      "id": "firestore.delete",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "failed",
+        "stage": "operation",
+        "error": "Code generation from strings disallowed for this context"
+      },
+      "comparison": "incompatible"
+    },
+    {
+      "id": "database.import",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "database.write",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "database.read",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "database.delete",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "storage.import",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "storage.upload",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "storage.download",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "storage.delete",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "messaging.import",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "messaging.create",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "messaging.send",
+      "node": {
+        "status": "untested"
+      },
+      "workerd": {
+        "status": "untested"
+      },
+      "comparison": "untested"
+    }
+  ]
+}
