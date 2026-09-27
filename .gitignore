@@ -1,0 +1,12 @@
+node_modules/
+.matrix-tmp/
+firebase-debug.log
+firebase-debug.*.log
+ui-debug.log
+firestore-debug.log
+database-debug.log
+storage-debug.log
+.firebase/
+.env
+.env.*
+!.env.example
