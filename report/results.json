@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "versions": {
     "firebaseAdmin": "14.5.0",
     "workerd": "1.20260927.1",
@@ -50,6 +50,186 @@
     },
     {
       "id": "auth.delete",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.getByEmail",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.getByPhone",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.getMany",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.list",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.update",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.deleteMany",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.setClaims",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.revoke",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.importUsers",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.createCustomToken",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.verifyIdToken",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.createSessionCookie",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.verifySessionCookie",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.getByProvider",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.passwordResetLink",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.emailVerificationLink",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.verifyAndChangeEmailLink",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "auth.signInWithEmailLink",
       "node": {
         "status": "passed"
       },
@@ -145,6 +325,36 @@
       "comparison": "compatible"
     },
     {
+      "id": "database.update",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "database.query",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "database.transaction",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
       "id": "storage.import",
       "node": {
         "status": "passed"
@@ -185,6 +395,36 @@
       "comparison": "compatible"
     },
     {
+      "id": "storage.metadata",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "storage.list",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
+      "id": "storage.copy",
+      "node": {
+        "status": "passed"
+      },
+      "workerd": {
+        "status": "passed"
+      },
+      "comparison": "compatible"
+    },
+    {
       "id": "messaging.import",
       "node": {
         "status": "passed"
@@ -213,6 +453,204 @@
         "status": "untested"
       },
       "comparison": "untested"
+    }
+  ],
+  "authMethods": [
+    {
+      "method": "createCustomToken",
+      "caseId": "auth.createCustomToken",
+      "node": "passed",
+      "workerd": "passed",
+      "comparison": "compatible"
+    },
+    {
+      "method": "createProviderConfig",
+      "caseId": null,
+      "node": "untested",
+      "workerd": "untested",
+      "comparison": "untested"
+    },
+    {
+      "method": "createSessionCookie",
+      "caseId": "auth.createSessionCookie",
+      "node": "passed",
+      "workerd": "passed",
+      "comparison": "compatible"
+    },
+    {
+      "method": "createUser",
+      "caseId": "auth.create",
+      "node": "passed",
+      "workerd": "passed",
+      "comparison": "compatible"
+    },
+    {
+      "method": "deleteProviderConfig",
+      "caseId": null,
+      "node": "untested",
+      "workerd": "untested",
+      "comparison": "untested"
+    },
+    {
+      "method": "deleteUser",
+      "caseId": "auth.delete",
+      "node": "passed",
+      "workerd": "passed",
+      "comparison": "compatible"
+    },
+    {
+      "method": "deleteUsers",
+      "caseId": "auth.deleteMany",
+      "node": "passed",
+      "workerd": "passed",
+      "comparison": "compatible"
+    },
+    {
+      "method": "generateEmailVerificationLink",
+      "caseId": "auth.emailVerificationLink",
+      "node": "passed",
+      "workerd": "passed",
+      "comparison": "compatible"
+    },
+    {
+      "method": "generatePasswordResetLink",
+      "caseId": "auth.passwordResetLink",
+      "node": "passed",
+      "workerd": "passed",
+      "comparison": "compatible"
+    },
+    {
+      "method": "generateSignInWithEmailLink",
+      "caseId": "auth.signInWithEmailLink",
+      "node": "passed",
+      "workerd": "passed",
+      "comparison": "compatible"
+    },
+    {
+      "method": "generateVerifyAndChangeEmailLink",
+      "caseId": "auth.verifyAndChangeEmailLink",
+      "node": "passed",
+      "workerd": "passed",
+      "comparison": "compatible"
+    },
+    {
+      "method": "getProviderConfig",
+      "caseId": null,
+      "node": "untested",
+      "workerd": "untested",
+      "comparison": "untested"
+    },
+    {
+      "method": "getUser",
+      "caseId": "auth.get",
+      "node": "passed",
+      "workerd": "passed",
+      "comparison": "compatible"
+    },
+    {
+      "method": "getUserByEmail",
+      "caseId": "auth.getByEmail",
+      "node": "passed",
+      "workerd": "passed",
+      "comparison": "compatible"
+    },
+    {
+      "method": "getUserByPhoneNumber",
+      "caseId": "auth.getByPhone",
+      "node": "passed",
+      "workerd": "passed",
+      "comparison": "compatible"
+    },
+    {
+      "method": "getUserByProviderUid",
+      "caseId": "auth.getByProvider",
+      "node": "passed",
+      "workerd": "passed",
+      "comparison": "compatible"
+    },
+    {
+      "method": "getUsers",
+      "caseId": "auth.getMany",
+      "node": "passed",
+      "workerd": "passed",
+      "comparison": "compatible"
+    },
+    {
+      "method": "importUsers",
+      "caseId": "auth.importUsers",
+      "node": "passed",
+      "workerd": "passed",
+      "comparison": "compatible"
+    },
+    {
+      "method": "listProviderConfigs",
+      "caseId": null,
+      "node": "untested",
+      "workerd": "untested",
+      "comparison": "untested"
+    },
+    {
+      "method": "listUsers",
+      "caseId": "auth.list",
+      "node": "passed",
+      "workerd": "passed",
+      "comparison": "compatible"
+    },
+    {
+      "method": "projectConfigManager",
+      "caseId": null,
+      "node": "untested",
+      "workerd": "untested",
+      "comparison": "untested"
+    },
+    {
+      "method": "revokeRefreshTokens",
+      "caseId": "auth.revoke",
+      "node": "passed",
+      "workerd": "passed",
+      "comparison": "compatible"
+    },
+    {
+      "method": "setCustomUserClaims",
+      "caseId": "auth.setClaims",
+      "node": "passed",
+      "workerd": "passed",
+      "comparison": "compatible"
+    },
+    {
+      "method": "tenantManager",
+      "caseId": null,
+      "node": "untested",
+      "workerd": "untested",
+      "comparison": "untested"
+    },
+    {
+      "method": "updateProviderConfig",
+      "caseId": null,
+      "node": "untested",
+      "workerd": "untested",
+      "comparison": "untested"
+    },
+    {
+      "method": "updateUser",
+      "caseId": "auth.update",
+      "node": "passed",
+      "workerd": "passed",
+      "comparison": "compatible"
+    },
+    {
+      "method": "verifyIdToken",
+      "caseId": "auth.verifyIdToken",
+      "node": "passed",
+      "workerd": "passed",
+      "comparison": "compatible"
+    },
+    {
+      "method": "verifySessionCookie",
+      "caseId": "auth.verifySessionCookie",
+      "node": "passed",
+      "workerd": "passed",
+      "comparison": "compatible"
     }
   ]
 }

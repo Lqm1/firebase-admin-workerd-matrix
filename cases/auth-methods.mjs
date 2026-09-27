@@ -1,0 +1,25 @@
+// Each mapping names the public Auth method whose behavior the case exercises.
+// The inventory also discovers unmapped methods from the installed SDK.
+export const authMethodCases = {
+  createUser: "auth.create",
+  getUser: "auth.get",
+  deleteUser: "auth.delete",
+  getUserByEmail: "auth.getByEmail",
+  getUserByPhoneNumber: "auth.getByPhone",
+  getUsers: "auth.getMany",
+  listUsers: "auth.list",
+  updateUser: "auth.update",
+  deleteUsers: "auth.deleteMany",
+  setCustomUserClaims: "auth.setClaims",
+  revokeRefreshTokens: "auth.revoke",
+  importUsers: "auth.importUsers",
+  createCustomToken: "auth.createCustomToken",
+  verifyIdToken: "auth.verifyIdToken",
+  createSessionCookie: "auth.createSessionCookie",
+  verifySessionCookie: "auth.verifySessionCookie",
+  getUserByProviderUid: "auth.getByProvider",
+  generatePasswordResetLink: "auth.passwordResetLink",
+  generateEmailVerificationLink: "auth.emailVerificationLink",
+  generateVerifyAndChangeEmailLink: "auth.verifyAndChangeEmailLink",
+  generateSignInWithEmailLink: "auth.signInWithEmailLink",
+};
