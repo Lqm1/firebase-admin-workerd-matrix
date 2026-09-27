@@ -9,6 +9,11 @@ import { prepare, cleanup } from "./fixtures.mjs";
 
 const check = process.argv.includes("--check");
 const importsOnly = process.argv.includes("--imports-only");
+const caseOption = process.argv.indexOf("--case");
+const selectedCase = caseOption >= 0 ? process.argv[caseOption + 1] : undefined;
+if (caseOption >= 0 && (!selectedCase || !suites.some((suite) => suite.cases.includes(selectedCase)))) {
+  throw new Error(`Unknown or missing case ID: ${selectedCase ?? ""}`);
+}
 const outputRoot = path.resolve(".matrix-tmp");
 const resultsPath = path.resolve("report/results.json");
 const markdownPath = path.resolve("report/README.md");
@@ -123,6 +128,7 @@ function comparison(node, runtime) {
 const rows = [];
 let infrastructureError = false;
 for (const suite of suites) {
+  if (selectedCase && !suite.cases.includes(selectedCase)) continue;
   const directory = path.join(outputRoot, suite.name);
   let nodeModule;
   let nodeImportError;
@@ -140,6 +146,7 @@ for (const suite of suites) {
   }
   for (const id of suite.cases) {
     if (importsOnly && !id.endsWith(".import")) continue;
+    if (selectedCase && id !== selectedCase) continue;
     let node;
     let runtime;
     if (untested.has(id)) {
@@ -156,11 +163,12 @@ for (const suite of suites) {
     if (node.status === "environment-error" || runtime.status === "environment-error") infrastructureError = true;
     rows.push({ id, node, workerd: runtime, comparison: comparison(node, runtime) });
     process.stdout.write(`${id}: node=${node.status}, workerd=${runtime.status}\n`);
+    if (selectedCase) process.stdout.write(`${JSON.stringify(rows.at(-1), null, 2)}\n`);
   }
   running?.child.kill();
 }
 
-if (!importsOnly) {
+if (!importsOnly && !selectedCase) {
 const report = {
   schemaVersion: 1,
   versions: {

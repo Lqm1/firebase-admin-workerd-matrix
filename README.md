@@ -23,6 +23,13 @@ Run `pnpm matrix:check` to compare regenerated output with the committed report.
 
 For a quick import-only probe without emulators, run `pnpm matrix:imports`.
 
+To rerun one case without replacing the committed report, build the suites and pass its ID to the runner under the emulators. For example:
+
+```sh
+pnpm matrix:build
+pnpm exec firebase emulators:exec --project demo-workerd-matrix --only auth,firestore,database,storage "node scripts/run-matrix.mjs --case firestore.read"
+```
+
 ## Interpreting results
 
 The JSON report keeps the exact `firebase-admin`, `workerd`, Node.js, and compatibility date versions. Every case has a stable ID and one result per runtime. `passed` means that the listed import or operation completed and its assertion held. `failed` records an SDK or runtime error. `environment-error` records a fixture or harness failure. `untested` identifies operations outside this first set. The Markdown report includes the error stage and message for failed cases.
