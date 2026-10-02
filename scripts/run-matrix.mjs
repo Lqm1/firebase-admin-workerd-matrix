@@ -4,7 +4,10 @@ import { createServer } from "node:net";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import workerd from "workerd";
+import { getAuth } from "firebase-admin/auth";
 import { suites, untested, projectId } from "../cases/manifest.mjs";
+import { authMethodCases } from "../cases/auth-methods.mjs";
+import { withApp } from "../cases/shared.mjs";
 import { prepare, cleanup } from "./fixtures.mjs";
 
 const check = process.argv.includes("--check");
@@ -68,10 +71,11 @@ async function launchWorkerd(suite) {
   throw new Error(diagnostics.trim() || `workerd did not start for ${suite.name}`);
 }
 
-async function callWorkerd(running, id, token) {
+async function callWorkerd(running, id, token, input) {
   const url = new URL(running.base);
   url.searchParams.set("case", id);
   url.searchParams.set("token", token);
+  if (input) url.searchParams.set("input", input);
   try {
     const response = await fetch(url, { signal: AbortSignal.timeout(20000) });
     return classify(await response.json());
@@ -80,10 +84,11 @@ async function callWorkerd(running, id, token) {
   }
 }
 
-async function callNode(module, id, token) {
+async function callNode(module, id, token, input) {
   const url = new URL("http://matrix.local/");
   url.searchParams.set("case", id);
   url.searchParams.set("token", token);
+  if (input) url.searchParams.set("input", input);
   try {
     const response = await module.default.fetch(new Request(url));
     return classify(await response.json());
@@ -97,9 +102,9 @@ async function withFixture(id, runtime, action) {
   let prepared = false;
   let outcome;
   try {
-    await prepare(id, token);
+    const input = await prepare(id, token);
     prepared = true;
-    outcome = await action(token);
+    outcome = await action(token, input);
   } catch (error) {
     outcome = failure("environment-error", prepared ? "harness" : "fixture", error instanceof Error ? error.message : error);
   }
@@ -155,10 +160,10 @@ for (const suite of suites) {
     } else {
       node = nodeImportError
         ? failure("failed", "import", nodeImportError)
-        : await withFixture(id, "node", (token) => callNode(nodeModule, id, token));
+        : await withFixture(id, "node", (token, input) => callNode(nodeModule, id, token, input));
       runtime = workerdStartupError
         ? failure(workerdStartupError.includes("Uncaught") ? "failed" : "environment-error", workerdStartupError.includes("Uncaught") ? "import" : "startup", workerdStartupError)
-        : await withFixture(id, "workerd", (token) => callWorkerd(running, id, token));
+        : await withFixture(id, "workerd", (token, input) => callWorkerd(running, id, token, input));
     }
     if (node.status === "environment-error" || runtime.status === "environment-error") infrastructureError = true;
     rows.push({ id, node, workerd: runtime, comparison: comparison(node, runtime) });
@@ -169,8 +174,25 @@ for (const suite of suites) {
 }
 
 if (!importsOnly && !selectedCase) {
+const authMethods = await withApp("auth-method-inventory", async (app) => {
+  const methods = new Set();
+  for (let prototype = getAuth(app); prototype && prototype !== Object.prototype; prototype = Object.getPrototypeOf(prototype)) {
+    for (const [name, descriptor] of Object.entries(Object.getOwnPropertyDescriptors(prototype))) {
+      if (name !== "constructor" && name !== "verifyDecodedJWTNotRevokedOrDisabled" && !name.startsWith("_") && typeof descriptor.value === "function") methods.add(name);
+    }
+  }
+  for (const mappedMethod of Object.keys(authMethodCases)) {
+    if (!methods.has(mappedMethod)) throw new Error(`Auth test maps missing SDK method: ${mappedMethod}`);
+  }
+  return [...methods].sort().map((method) => {
+    const caseId = authMethodCases[method] ?? null;
+    const row = rows.find((item) => item.id === caseId);
+    if (caseId && !row) throw new Error(`Auth method ${method} references missing case ${caseId}`);
+    return { method, caseId, node: row?.node.status ?? "untested", workerd: row?.workerd.status ?? "untested", comparison: row?.comparison ?? "untested" };
+  });
+});
 const report = {
-  schemaVersion: 1,
+  schemaVersion: 2,
   versions: {
     firebaseAdmin: packageJson.dependencies["firebase-admin"],
     workerd: packageJson.devDependencies.workerd,
@@ -179,6 +201,7 @@ const report = {
   },
   projectId,
   cases: rows,
+  authMethods,
 };
 const json = `${JSON.stringify(report, null, 2)}\n`;
 const markdown = [
@@ -186,11 +209,20 @@ const markdown = [
   "",
   `Versions: firebase-admin ${report.versions.firebaseAdmin}, workerd ${report.versions.workerd}, Node.js ${report.versions.node}, compatibility date ${report.versions.compatibilityDate}.`,
   "",
-  "The service operations use the Firebase Local Emulator Suite with a demo project. Messaging send is untested. Results describe these cases only.",
+  "The service operations use the Firebase Local Emulator Suite with a demo project. Messaging send is untested. Results describe these inputs and cases only, not full service compatibility or production behavior.",
+  "Auth method coverage is discovered from the installed SDK. `auth.import` tests module loading; `auth.importUsers` tests the user import method. Unmapped methods are untested and must not be treated as compatible.",
   "",
   "| Case | Node.js | workerd | Comparison |",
   "| --- | --- | --- | --- |",
   ...rows.map((row) => `| \`${row.id}\` | ${row.node.status} | ${row.workerd.status} | ${row.comparison} |`),
+  "",
+  "## Auth method coverage",
+  "",
+  `${authMethods.filter((entry) => entry.caseId).length} of ${authMethods.length} public Auth methods have behavior cases. The import case only checks module loading and is not an Auth method.`,
+  "",
+  "| Method | Case | Node.js | workerd | Comparison |",
+  "| --- | --- | --- | --- | --- |",
+  ...authMethods.map((entry) => `| \`${entry.method}\` | ${entry.caseId ? `\`${entry.caseId}\`` : "—"} | ${entry.node} | ${entry.workerd} | ${entry.comparison} |`),
   "",
   "## Failures",
   "",

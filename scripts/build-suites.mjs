@@ -45,9 +45,10 @@ for (const suite of suites) {
         if (url.pathname === "/health") return new Response("ok");
         const id = url.searchParams.get("case");
         const token = url.searchParams.get("token");
+        const input = url.searchParams.get("input");
         if (!id || !token) return Response.json({ ok: false, stage: "request", error: "Missing case or token" }, { status: 400 });
         try {
-          await runCase(id, token);
+          await runCase(id, token, input);
           return Response.json({ ok: true });
         } catch (error) {
           return Response.json({ ok: false, stage: "operation", error: error instanceof Error ? error.message : String(error) });

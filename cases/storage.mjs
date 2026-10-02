@@ -15,6 +15,16 @@ export async function runCase(id, token) {
       expectEqual(data.toString(), `value:${token}`);
     } else if (id === "storage.delete") {
       await file.delete();
+    } else if (id === "storage.metadata") {
+      const [metadata] = await file.getMetadata();
+      expectEqual(metadata.name, `matrix/${token}`);
+    } else if (id === "storage.list") {
+      const [files] = await getStorage(app).bucket().getFiles({ prefix: `matrix/${token}` });
+      if (!files.some((entry) => entry.name === `matrix/${token}`)) throw new Error("Uploaded file not listed");
+    } else if (id === "storage.copy") {
+      const [copy] = await file.copy(`matrix/${token}-copy`);
+      const [data] = await copy.download();
+      expectEqual(data.toString(), `value:${token}`);
     } else {
       throw new Error(`Unknown case: ${id}`);
     }

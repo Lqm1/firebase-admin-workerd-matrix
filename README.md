@@ -4,7 +4,11 @@ This project runs selected `firebase-admin` imports and operations in Node.js an
 
 ## Coverage
 
-The matrix tests the package root and the Auth, Firestore, Realtime Database, Storage, and Messaging module entries. It also tests independent create, read, and delete operations for the four emulated services. Messaging client creation is tested; sending is marked untested because the Local Emulator Suite does not provide an FCM send emulator.
+The matrix tests the package root and the Auth, Firestore, Realtime Database, Storage, and Messaging module entries. `auth.import` means that the `firebase-admin/auth` module loads and exports `getAuth`; it does not mean that `importUsers()` works. The separate `auth.importUsers` case exercises that method.
+
+Auth has behavior cases for user creation, lookup by UID/email/phone/provider, batch lookup and listing, update, deletion, claims, token revocation, user import, custom token creation, ID token verification, session cookies, and email action links. The report discovers the Auth methods in the pinned SDK and lists every method without a behavior case as `untested`. A passing method row covers only the arguments and emulator scenario in its case. It does not establish support for every option, error path, Identity Platform feature, or a live Firebase project.
+
+Firestore has independent write, read, and delete cases. Realtime Database also tests update, a limited query, and a transaction. Storage also tests metadata lookup, object listing, and copying. Messaging client creation is tested; sending is marked untested because the Local Emulator Suite does not provide an FCM send emulator. These service case lists are still samples, not complete method inventories.
 
 Each operation has its own fixture. A failed create case therefore does not prevent the read or delete cases from running. The same bundled case runs first in Node.js and then in `workerd`. If Node.js fails, the comparison is *incomparable*. A `workerd` failure after a passing Node.js baseline is *incompatible* for that case.
 
@@ -32,6 +36,6 @@ pnpm exec firebase emulators:exec --project demo-workerd-matrix --only auth,fire
 
 ## Interpreting results
 
-The JSON report keeps the exact `firebase-admin`, `workerd`, Node.js, and compatibility date versions. Every case has a stable ID and one result per runtime. `passed` means that the listed import or operation completed and its assertion held. `failed` records an SDK or runtime error. `environment-error` records a fixture or harness failure. `untested` identifies operations outside this first set. The Markdown report includes the error stage and message for failed cases.
+The JSON report keeps the exact `firebase-admin`, `workerd`, Node.js, and compatibility date versions. Every case has a stable ID and one result per runtime. `passed` means that the listed import or operation completed and its assertion held. `failed` records an SDK or runtime error. `environment-error` records a fixture or harness failure. `untested` means no behavior case was run. The Markdown report includes the error stage and message for failed cases and an Auth method inventory. A `compatible` comparison applies to one case, not to the entire service.
 
 Firestore uses the SDK's `preferRest` option so these cases exercise its HTTP/1.1 transport. Storage uploads use non-resumable uploads. These settings are part of the tested scenario.
